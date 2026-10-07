@@ -2,7 +2,7 @@
 
 Harrison Wei (hw3206) — Fall 2026.
 
-This repository contains the R Markdown analysis and the local source data needed to knit it. Open `p8105_hw2_hw3206.Rproj`, then knit `p8105_hw2_hw3206.Rmd` to a GitHub-flavored Markdown document. Paths in the analysis are relative to the project root.
+This repository contains the [R Markdown analysis](p8105_hw2_hw3206.Rmd), its [rendered answers](p8105_hw2_hw3206.md), and the local source data needed to knit it. Open `p8105_hw2_hw3206.Rproj`, then knit the R Markdown file to a GitHub-flavored Markdown document. Paths in the analysis are relative to the project root.
 
 Source data in `data/`:
 

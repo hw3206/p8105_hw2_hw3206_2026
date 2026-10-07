@@ -220,6 +220,9 @@ amyloid <- amyloid_wide |>
 This file contains **`r nrow(amyloid_wide)` participants** and `r nrow(amyloid)` scheduled participant-visits. Of those visits, `r sum(!is.na(amyloid$amyloid_ratio))` have a recorded amyloid ratio; the rest are missing measurements.
 
 ```{r mci-join}
+raw_baseline_only <- anti_join(baseline_all, amyloid_wide, by = "id")
+raw_amyloid_only <- anti_join(amyloid_wide, baseline_all, by = "id")
+
 baseline_only <- anti_join(baseline, distinct(amyloid, id), by = "id")
 amyloid_only <- anti_join(distinct(amyloid, id), baseline, by = "id")
 
@@ -229,4 +232,4 @@ mci_amyloid <- inner_join(baseline, amyloid, by = "id") |>
 write_csv(mci_amyloid, "data/mci_amyloid_clean.csv")
 ```
 
-After the baseline eligibility filter, **`r nrow(baseline_only)` people** appear only in the baseline file (IDs `r paste(baseline_only$id, collapse = ", ")`), and **`r nrow(amyloid_only)`** appear only in the amyloid file (IDs `r paste(amyloid_only$id, collapse = ", ")`). Four of the latter have baseline records but were excluded for MCI at baseline; the other 12 have no baseline record. The inner join retains **`r n_distinct(mci_amyloid$id)` participants** and **`r nrow(mci_amyloid)` scheduled participant-visits**. Each row has baseline demographics, follow-up MCI onset age if applicable, the scheduled visit year, and its amyloid ratio; `r sum(is.na(mci_amyloid$amyloid_ratio))` ratios are missing. The exported tidy table is `data/mci_amyloid_clean.csv`.
+Before applying the baseline eligibility rule, `r nrow(raw_baseline_only)` people occur only in the baseline file and `r nrow(raw_amyloid_only)` only in the amyloid file. After excluding baseline MCI cases, **`r nrow(baseline_only)` people** appear only in the eligible baseline data (IDs `r paste(baseline_only$id, collapse = ", ")`), and **`r nrow(amyloid_only)`** appear only in the amyloid data (IDs `r paste(amyloid_only$id, collapse = ", ")`). Four of the latter have baseline records but were excluded for MCI at baseline; the other 12 have no baseline record. The inner join retains **`r n_distinct(mci_amyloid$id)` participants** and **`r nrow(mci_amyloid)` scheduled participant-visits**. Each row has baseline demographics, follow-up MCI onset age if applicable, the scheduled visit year, and its amyloid ratio; `r sum(is.na(mci_amyloid$amyloid_ratio))` ratios are missing. The exported tidy table is `data/mci_amyloid_clean.csv`.
